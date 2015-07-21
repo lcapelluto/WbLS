@@ -18,7 +18,7 @@ const int NAP = 12;
  * assume excitation peak is too close to 300nm to use bottom values for
  * baseline.
  */
-void GraphResponse(char* datafile = "", char* title = "Graph",
+void GR2(char* datafile = "", char* solventfile = "", char* title = "Graph",
               int num_points = 31, int dataheader = 4,
               int is_low = 0,
               char* xtitle = "wavelength [nm]",
@@ -70,7 +70,6 @@ void GraphResponse(char* datafile = "", char* title = "Graph",
         double yval = atof(p);
         x[index] = xval;
         y[index] = yval;
-        printf("x %f, y %f\n",xval,yval);
         if (((index < NAP/2) || (index >= num_points - NAP/2)) && !is_low) {
             baseline += yval;
         } else if ((index < NAP) && (is_low)) {
@@ -87,10 +86,49 @@ void GraphResponse(char* datafile = "", char* title = "Graph",
         y[j] -= baseline;
         if (correction) y[j] *= corr[(int) x[j]];
     }
+
     
+    FILE *s = fopen(solventfile, "r");
+    if (!s) {
+        printf("Invalid data file.\n");
+        return;
+    }
     
+    double y2[MAX_NUM_POINTS];
+    index = 0;
+    double baseline = 0.0;
+    for (int h = 0; h < dataheader; h++) 
+        if (!fgets(line, sizeof(line), s)) printf("Error");
+    while(fgets(line, sizeof(line), s)) {
+        strtok(line, "\n");
+        if (index >= num_points) break;
+        double xval = strtod(line, &p);
+        double yval = atof(p);
+        y2[index] = yval;
+        if (((index < NAP/2) || (index >= num_points - NAP/2)) && !is_low) {
+            baseline += yval;
+        } else if ((index < NAP) && (is_low)) {
+            baseline += yval;
+        }
+        index++;
+    }
     
-    TGraphErrors* g = new TGraphErrors(num_points, x, y);
+    fclose(s);
+    baseline = baseline / NAP;
+    printf("baseline %f\n", baseline);
+    double sum = 0.0;
+    for (int j = 0; j < num_points; j++) {
+        y2[j] -= baseline;
+        if (correction) y2[j] *= corr[(int) x[j]];
+        y2[j] -= y[j];
+        if (j>41 && j<54) {
+            printf("%d %f\n", j+300, y2[j]);
+            sum += y2[j];
+        }
+    }
+    printf("sum %f\n", sum);
+    
+    TGraphErrors* g = new TGraphErrors(num_points, x, y2);
     g->SetTitle(title);
     g->GetXaxis()->SetTitle(xtitle);
     g->GetYaxis()->SetTitle(ytitle);
