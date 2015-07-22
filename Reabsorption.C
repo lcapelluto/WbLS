@@ -67,10 +67,10 @@ void Reabsorption() {
     for (int j = 0; j < num_points; j++) {
         y[j] -= baseline;
         if (correction) y[j] *= corr[(int) x[j]];
-        if (j > 41 && j < 160) {
+        if (j > 43 && j < 142) {
             peak1 += y[j];
         }
-        if (j > 75 && j < 200) {
+        if (j > 77 && j < 142) {
             norm1 += y[j];
         }
     }
@@ -81,7 +81,7 @@ void Reabsorption() {
     ///******************************************************************//
     ///******************************************************************//
     
-    FILE *data2 = fopen("data/response/PPO_ethanol/PE_337_OUT_default.txt", "r");
+    FILE *data2 = fopen("data/reabsorption/PPO_etoh_301_IS.txt", "r");
     FILE *correction2 = fopen("correction/alignedDefault.txt", "r");
     if (!data2) {
         printf("Invalid data file2.\n");
@@ -125,17 +125,17 @@ void Reabsorption() {
     for (int j = 0; j < num_points; j++) {
         y[j] -= baseline;
         if (correction2) y[j] *= corr[(int) x[j]];
-        if (j > 41 && j < 160) {
+        if (j > 41 && j < 140) {
             peak2 += y[j];
         }
-        if (j > 75 && j < 200) {
+        if (j > 75 && j < 140) {
             norm2 += y[j];
         }
     }
     
     double factor = norm1/norm2;
     printf("factor %f \n", factor);
-    printf("peak1 %f / peak2 %f = %f\n", peak1, peak2 * factor, peak1/ (peak2*factor));
+    printf("peak2 %f / peak1 %f = %f\n", peak2 * factor, peak1, (peak2*factor)/ peak1);
     
 }
 

@@ -98,6 +98,7 @@ void QuantumYield(char* solvent_data_file = "",
             QY = ThreeMMQY(out_data, lmin, lmax, pmin, pmax);
             error = get_error();
             printf("L_c %f\nP_c %f\n3MMQY %f +/- %f\n", L_c, P_c, QY, error);
+            printf("L_a - L_c = %f\n", L_a - L_c);
         }
     }
     if (out_data) {
