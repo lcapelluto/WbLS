@@ -1,9 +1,27 @@
+/* Max number of data points in emission scan. */
 const int MAX_NUM_POINTS = 651;
+/* Max line size. */
 const int LINE_SIZE = 60;
+/* Number of averaging points for baseline. */
+const int NAP = 20;
 
-void Reabsorption() {
-    int num_points = 347;
-    int NAP = 20;
+/* Prints the factor 1-w where w is the probability a photon will be
+ * reabsorbed by the sample. w is necessary for the quantum yield
+ * reabsorption correction.
+ *
+ * 1-w is found by dividing the integrated fluorescence spectrum of a sample
+ * taken in the integrating sphere (IS) by the integrated spectrum of the
+ * diluted sample in the fluorescence spectrometer (FS) (negligible
+ * reabsorption). Integration is from wavelength A to C.
+ *
+ * The IS spectrum is normalized to the FS spectrum from wavelegnth
+ * B to C. At and above B, the IS spectrum should show no signs of
+ * reabsorption (peaks surpressed relative to peaks at longer wavelengths).
+ */
+void Reabsorption(int a = 70, int b = 100, int c = 135, int num_points = 347,
+                  char* FS_file = "data/reabsorption/anthracene_etoh_30.2_box.txt",
+                  char* IS_file = "data/response/anthracene_ethanol/AE_340_IN_default.txt") {
+    
     double x[MAX_NUM_POINTS];
     double y[MAX_NUM_POINTS];
     int xcorr[MAX_NUM_POINTS];
@@ -13,11 +31,9 @@ void Reabsorption() {
     int index = 0;
     double xval, yval;
     
-    int a = 70;
-    int b = 100;
-    int c = 135;
+
     
-    FILE *data = fopen("data/reabsorption/anthracene_etoh_30.2_box.txt", "r");
+    FILE *data = fopen(FS_file, "r");
     FILE *correction = fopen("correction/emcorri.txt", "r");
     if (!data) {
         printf("Invalid data file.\n");
@@ -42,7 +58,6 @@ void Reabsorption() {
                 corr[j] = m * (j - xcorr[i]) + corr[xcorr[i]];
             }
         }
-        
     }
      
     index = 0;
@@ -83,11 +98,11 @@ void Reabsorption() {
     TGraph *FS = new TGraph(300, x, y);
     
     ///******************************************************************//
-    ///******************************************************************//
+    ///********************** Integrating Sphere ************************//
     ///******************************************************************//
     ///******************************************************************//
     
-    FILE *data2 = fopen("data/response/anthracene_ethanol/AE_340_IN_default.txt", "r");
+    FILE *data2 = fopen(IS_file, "r");
     FILE *correction2 = fopen("correction/alignedCyhx.txt", "r");
     if (!data2) {
         printf("Invalid data file2.\n");

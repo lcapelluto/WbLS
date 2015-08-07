@@ -7,6 +7,10 @@ const int MAX_NUM_POINTS = 500;
 /* Estimated maximum length of data file line. */
 const int LINE_SIZE = 60;
 
+/* Reads in emission correction data from a text file and
+ * creates a new file with correction values at each nm
+ * by linearly interpolating data from the original file.
+ */
 void Fill() {
     int xcorr[400];
     double corr[670];
@@ -31,7 +35,6 @@ void Fill() {
                 corr[j] = m * (j - xcorr[i]) + corr[xcorr[i]];
             }
         }
-        
     }
     
     FILE* w = fopen("water.txt","w");
@@ -40,7 +43,6 @@ void Fill() {
         sprintf(line, "%d %f\n", i, corr[i]);
         fputs(line, w);
     } 
-
     fclose(r);
     fclose(w);
 }

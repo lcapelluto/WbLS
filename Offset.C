@@ -1,5 +1,12 @@
 /* Plot data from offset investigations. Data from samples
- * are in box measurements. */
+ * was taken in the fluorescence spectrometer. 
+ * 
+ * This data allowed me to understand the complicated effect
+ * the monochromators had on the true wavelength, the recorded
+ * wavelength, and the requested wavelength. There seems to be
+ * enough consistency that I can take this information into account
+ * and still measure the quantum yield.
+ */
 void Offset() {
     
     TCanvas *c3 = new TCanvas("c3","c3",600, 400);

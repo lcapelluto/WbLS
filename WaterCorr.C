@@ -8,7 +8,7 @@
  * Determine the correction to be applied to emission spectra from the
  * integrating sphere, by printing the inverse of the sum (with an averaged 
  * baseline subtracted from each point) of events from each scan, with a
- * quartz vial holding water.
+ * quartz vial holding de-ionized water.
  *
  * Data was collected using a high pressure xenon lamp with two monochromators 
  * to select one exitation wavelength, which traveled through a light tube
@@ -16,14 +16,10 @@
  * Reflected light went through another light tube and was recorded by a 
  * third monochromator with FeliXGX data acquisition software.
  * 
- * 39 emission scans were taken, with a +-15nm range from the excitation 
+ * 43 emission scans were taken, with a +-15nm range from the excitation 
  * wavelength. Gain was set to 6.8V, slit widths were all 1mm, integration
  * time was 10 seconds. Default excitation correction was previously applied
  * to data.
- *
- * An offset between reported wavelengths has been observed: the sample is 
- * excited at the desired excitation wavelength minus ~3 nm, which the emission
- * monochromator reports as -2 nm.
  */
 void WaterCorr() {
     double corr[NUM_FILES];
@@ -71,7 +67,6 @@ void WaterCorr() {
             sum += y[j];
         }
         /* Tried to normalize around 430nm. */
-        //number only for floating and illustrating purposes, it "cancels" out
         corr[i] = 1/(sum * 0.00000075);
         x[i] = peak;
         
@@ -80,7 +75,7 @@ void WaterCorr() {
     
     FILE* result = fopen("correction/WaterCorr.txt", "w");
     for (int k = 0; k < NUM_FILES; k++) {
-        //printf("%dnm: %f\n", x[k], corr[k]);
+        printf("%dnm: %f\n", x[k], corr[k]);
         sprintf(line, "%d %f\n", x[k], corr[k]);
         fputs(line, result);
     }

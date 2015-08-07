@@ -10,12 +10,11 @@ const int LINE_SIZE = 60;
 /* Number of Averaging Points to establish a baseline. */
 const int NAP = 12;
 
-/* Useful for corrections with inconsistent intervals in wavelength.
- * Apply default emission correction, subtract baseline, and make 
+/* Apply default emission correction, subtract baseline, and make 
  * a TGraph with NUM_POINTS points of the resulting response from DATAFILE,
  * titled TITLE with x and y axes labeled XTITLE and YTITLE, respectively. Data
- * must have DATAHEADER number of header lines. If LOW? is set to 1, it will
- * assume excitation peak is too close to 300nm to use bottom values for
+ * must have DATAHEADER number of header lines. If is_low is set to 1, it will
+ * assume excitation peak is too close to 300nm to use lower values for
  * baseline.
  */
 void GraphResponse(char* datafile = "", char* title = "Graph",
@@ -40,6 +39,7 @@ void GraphResponse(char* datafile = "", char* title = "Graph",
     char line[LINE_SIZE];
     char* p;
     int index = 0;
+    
     if (correction) {
         while(fgets(line, sizeof(line), correction)) {
             strtok(line, "\n");

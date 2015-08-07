@@ -69,8 +69,8 @@ void CyhxEmissionCorrection2() {
             y[j] -= baseline;
             sum += y[j];
         }
-        /* Tried to normalize around 430nm. */
-        //number only for floating and illustrating purposes, it "cancels" out
+        /* Tried to normalize around 430nm in order to make plots comparing
+         * different correction curves. */
         printf("x %d sum %f\n", peak, sum);
         corr[i] = 1/(sum * 0.000000825);
         x[i] = peak;

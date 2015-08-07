@@ -70,7 +70,7 @@ void EmissionCorrection2() {
             arr_y[j] -= offset;
             sum += arr_y[j];
         }
-        /* Tried to normalize around 430nm. */
+        /* Tried to normalize around 430nm for purposes of comparison. */
         if (!strcmp(correction, "default")) {
             default_corr[i/4] = 1/(sum * 0.0000007);
             dc_x[i/4] = peak;

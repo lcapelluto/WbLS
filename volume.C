@@ -2,13 +2,25 @@
 #include <string.h>
 #include <stdlib.h>
 
-/*
+/* Creates a plot of volume against integrated intensity.
+ * 
+ * The quartz vial was filled up with DI water then scanned
+ * twice with a 30 nm range, 10 sec integration, and excitation
+ * 350 then 320. Water was repeatedly removed from the vial and
+ * then the scans were performed again.
+ *
+ * The purpose is to understand the importance of filling the
+ * cuvette with the same volume of solvent only and solvent with
+ * the fluorophore. I would have expected that removing water would
+ * increase the integrated peak intensity, but it seems that there
+ * is no such trend.
  */
 void volume() {    
     char filename[LINE_SIZE];
     char line[LINE_SIZE];
-    TGraph *g = new TGraph(6);
     double volumes[] = {7.64740, 8.41104, 8.86870, 9.11126, 9.26344, 9.36596};  
+
+    TGraph *g = new TGraph(6);
    
     for (int i = 0; i < NUM_FILES; i++) {
         double offset = 0.0;
@@ -40,7 +52,6 @@ void volume() {
             y[j] -= offset;
             if (((j+305) >= 313) && ((j+305) <=325)) {
                 sum += y[j];
-                printf("y[j] %f\n", y[j]);
             }
         }
         g->SetPoint(i, volumes[i], sum);
