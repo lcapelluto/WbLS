@@ -19,8 +19,7 @@ void volume() {
     char filename[LINE_SIZE];
     char line[LINE_SIZE];
     double volumes[] = {7.64740, 8.41104, 8.86870, 9.11126, 9.26344, 9.36596};  
-
-    TGraph *g = new TGraph(6);
+    TGraph *g = new TGraph(NUM_FILES);
    
     for (int i = 0; i < NUM_FILES; i++) {
         double offset = 0.0;
@@ -54,7 +53,7 @@ void volume() {
                 sum += y[j];
             }
         }
-        g->SetPoint(i, volumes[i], sum);
+        g->SetPoint(i, volumes[i] - 6.28759, sum);
     }
     g->Draw();
 
