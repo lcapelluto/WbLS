@@ -20,12 +20,17 @@ void Offset() {
     double x_ppo[] = {355,371};
     double y_ppo[] = {4,4};
 
-    double x_emissionb[] = {300,350,400,450,475,477,500,525,550,600,650};
-    double y_emissionb[] = {1, 1,1,1.5,2,2,1.5,1,1.5,1.25,1};
+    //double x_emissionb[] = {300,350,400,450,475,477,500,525,550,600,650};
+    //double y_emissionb[] = {1, 1,1,1.5,2,2,1.5,1,1.5,1.25,1};
     
+    double x_emissionb[] = {350,380,400,450,500,550,600};
+    double y_emissionb[] = {0,-.5,0,-.5,0,-.5,0};
+
     //excitation scans where x is the emission wavelength collected
-    double x_emissionIS[] = {350,400,475,500,545,600,645};
-    double y_emissionIS[] = {2.5,2.5,3.5,2.5,3,2.5,0.5};
+    //double x_emissionIS[] = {350,400,475,500,545,600,645};
+    //double y_emissionIS[] = {2.5,2.5,3.5,2.5,3,2.5,0.5};
+    double x_emissionIS[] = {350,380,400,450,500,550,600};
+    double y_emissionIS[] = {-2,-2.5,-2,-2.5,-2,-2.5,-2};
     
     double x_excitationb[] = {300,350,400,450,475,500,550,600,650};
     double y_excitationb[] = {0,-1,-1,-1,-1.5,-1,-1.5,-.5,-1.5};
@@ -34,11 +39,14 @@ void Offset() {
     double y_excitationIS[] = {-2,-2,-2.5,-3.5,-2.5,-2.5,-2.5,-3};
     
     double x_cwf[] = {365,404.5,436,488,545,587,599,612,631};
-    double y_cwf[] = {-.5,1,.5,1.5,.5,1,1.5,1.5,.5};
+    double y_cwf[] = {-4,-3,-4,-3,-4,-3.5,-3,-3,-3.5};
+//    double y_cwf[] = {-.5,1,.5,1.5,.5,1,1.5,1.5,.5};
     double err[] = {.5,.5,.5,.5,.5,.5,.5,.5,.5};
     
-    double x_cwf_b[] = {404.6,436,488,545,584,587,599,612,631,650.5,663};
-    double y_cwf_b[] = {2.5,2,2,2.5,3,3,3,3,3,3,2};
+    double x_cwf_b[] = {404.6,436,488,545,587,599,612,631,650.5,663};
+    double y_cwf_b[] = {-1.5,-2,-1.5,-2,-1,-1,-1,-1,-1,-1};
+//    double y_cwf_b[] = {2.5,2,2,2.5,3,3,3,3,3,3,2};
+    //584
 
     TGraph *g1 = new TGraph(3, x_popop, y_popop);
     g1->SetTitle("POPOP");
@@ -61,7 +69,7 @@ void Offset() {
     g3->SetFillColor(0);
     g3->SetMarkerSize(1.2);
     
-    TGraphErrors *g4 = new TGraphErrors(11, x_emissionb, y_emissionb);
+    TGraphErrors *g4 = new TGraphErrors(7, x_emissionb, y_emissionb);
     g4->SetTitle("Excitation Scan");
     g4->SetMarkerStyle(25);
     g4->SetMarkerColor(2);
@@ -106,7 +114,7 @@ void Offset() {
     g9->SetFillColor(0);
     g9->SetMarkerSize(1.2);
     
-    TGraphErrors *g10 = new TGraphErrors(11, x_cwf_b, y_cwf_b);
+    TGraphErrors *g10 = new TGraphErrors(10, x_cwf_b, y_cwf_b);
     g10->SetTitle("Fluorescent lights");
     g10->SetMarkerStyle(25);
     g10->SetMarkerColor(1);
@@ -114,15 +122,14 @@ void Offset() {
     g10->SetMarkerSize(1.2);
     
     g6->Draw();
-    g4->Draw("SAME");
-    g5->Draw("SAME");
+    //g4->Draw("SAME");
+    //g5->Draw("SAME");
     g7->Draw("SAME");
-    g1->Draw("SAME");
-    g2->Draw("SAME");
-    g3->Draw("SAME");
-    g8->Draw("SAME");
+    //g1->Draw("SAME");
+    //g2->Draw("SAME");
+    //g3->Draw("SAME");
+    //g8->Draw("SAME");
     g9->Draw("SAME");
     g10->Draw("SAME");
     c3->BuildLegend();
 }
-

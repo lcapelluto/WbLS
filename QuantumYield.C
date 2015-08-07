@@ -156,7 +156,7 @@ void get_L_a(FILE* data, int min, int max) {
     L_a_err = sqrt(L_a_err);
     
     TGraph* g = new TGraph(80, x, y);
-    g->Draw();
+    //g->Draw();
 }
 
 
@@ -205,7 +205,8 @@ double TwoMMQY(FILE* data, int lmin, int lmax, int pmin, int pmax) {
         L_b_err = sqrt(L_b_err);
         P_b_err = sqrt(P_b_err);
     }
-    
+    TGraph* g = new TGraph(300, x, y);
+    g->Draw("SAME");
     return P_b / (L_a - L_b);
 }
 
@@ -348,6 +349,11 @@ FILE* open_correction(char* correction) {
        corrheader = 0;
        inc = 1;
        return fopen("correction/normalizer.txt", "r");
+    } else if (cmpfirst(correction, "water")) {
+       is_corr = 3;
+       corrheader = 0;
+       inc = 1;
+       return fopen("correction/water.txt", "r");
     }
     printf("No emission correction is being applied.\n");
     return NULL;

@@ -31,7 +31,7 @@ void GraphResponse(char* datafile = "", char* title = "Graph",
     double corr[MAX_NUM_POINTS];
     
     FILE *data = fopen(datafile, "r");
-    FILE *correction = fopen("correction/alignedDefault.txt", "r");
+    FILE *correction = fopen("correction/water.txt", "r");
     if (!data) {
         printf("Invalid data file.\n");
         return;
@@ -85,7 +85,7 @@ void GraphResponse(char* datafile = "", char* title = "Graph",
     printf("baseline %f\n", baseline);
     for (int j = 0; j < num_points; j++) {
         y[j] -= baseline;
-        if (correction) y[j] *= corr[(int) x[j]];
+        if (correction) y[j] *= corr[(int) x[j] + 2];
     }
     
     

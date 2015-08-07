@@ -8,7 +8,7 @@
  * Determine the correction to be applied to emission spectra from the
  * integrating sphere, by printing the inverse of the sum (with an averaged 
  * baseline subtracted from each point) of events from each scan, with a
- * borosilicate vial holding cyclohexane.
+ * quartz vial holding water.
  *
  * Data was collected using a high pressure xenon lamp with two monochromators 
  * to select one exitation wavelength, which traveled through a light tube
@@ -25,7 +25,7 @@
  * excited at the desired excitation wavelength minus ~3 nm, which the emission
  * monochromator reports as -2 nm.
  */
-void CyhxEmissionCorrection2() {
+void WaterCorr() {
     double corr[NUM_FILES];
     double x[NUM_FILES];
   
@@ -35,7 +35,7 @@ void CyhxEmissionCorrection2() {
     for (int i = 0; i < NUM_FILES; i++) {    
         double baseline = 0.0;
         double y[NUM_POINTS + 1];
-        sprintf(filename, "data/emcorr w cyhx/%d.txt", wavelength);
+        sprintf(filename, "data/water/%d.txt", wavelength);
         FILE *data = fopen(filename, "r");
         
         char line[LINE_SIZE];
@@ -72,13 +72,13 @@ void CyhxEmissionCorrection2() {
         /* Tried to normalize around 430nm. */
         //number only for floating and illustrating purposes, it "cancels" out
         printf("x %d sum %f\n", peak, sum);
-        corr[i] = 1/(sum * 0.000000825);
+        corr[i] = 1/(sum * 0.00000075);
         x[i] = peak;
         
         updateFilename(&wavelength);
     }
     
-    FILE* result = fopen("correction/CyhxCorrectionDataPeak.txt", "w");
+    FILE* result = fopen("correction/WaterCorr.txt", "w");
     for (int k = 0; k < NUM_FILES; k++) {
         printf("%dnm: %f\n", x[k], corr[k]);
         sprintf(line, "%d %f\n", x[k], corr[k]);
@@ -96,8 +96,8 @@ void CyhxEmissionCorrection2() {
         err[n] = 0.04148067 * corr[n];
     }
     
-    TGraphErrors* g = new TGraphErrors(39, x, corr, NULL, err);
-    g->SetTitle("Emission Corrections");
+    TGraphErrors* g = new TGraphErrors(43, x, corr, NULL, err);
+    g->SetTitle("Emission Correction");
     g->SetLineColor(4);
     g->Draw();
    
@@ -105,7 +105,7 @@ void CyhxEmissionCorrection2() {
 
 /* Modifies WAVELENGTH to open the next data file. */
 void updateFilename(int* wavelength) {
-    if (*wavelength < 330) {
+    if (*wavelength < 370 && *wavelength > 300) {
         *wavelength += 5;
     } else {
         *wavelength += 10;
@@ -114,7 +114,7 @@ void updateFilename(int* wavelength) {
 
 /* Constants regarding data acquisition. */
 const int NUM_POINTS = 31;
-const int NUM_FILES = 39;
+const int NUM_FILES = 43;
 /* Number of header lines in FeliXGX generated data text files. */
 const int HEADER_SIZE = 4;
 /* Constants regarding array sizes. */

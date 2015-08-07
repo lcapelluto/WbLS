@@ -9,9 +9,9 @@ const int LINE_SIZE = 60;
 
 void Fill() {
     int xcorr[400];
-    double corr[650];
+    double corr[670];
     
-    FILE* r = fopen("CyhxCorrectionDataPeak.txt", "r");
+    FILE* r = fopen("WaterCorr.txt", "r");
     char line[LINE_SIZE];
     char* p;
     int index = 0;
@@ -24,7 +24,7 @@ void Fill() {
             corr[(int) xval] = yval;
             index++;
         }
-        for (int i = 0; i < 37; i++) {
+        for (int i = 0; i < 43; i++) {
             double m = (corr[xcorr[i+1]] - corr[xcorr[i]]) /  (xcorr[i+1] - xcorr[i]);
             for (int j = xcorr[i] + 1; j < xcorr[i + 1]; j++) {
                 printf("i %d j %d y %f\n", i, j, corr[xcorr[i]]);
@@ -34,7 +34,7 @@ void Fill() {
         
     }
     
-    FILE* w = fopen("alignedCyhx.txt","w");
+    FILE* w = fopen("water.txt","w");
     for (int i = 300; i < 648; i++) {
         printf("%dnm - %f\n", i, corr[i]);
         sprintf(line, "%d %f\n", i, corr[i]);
