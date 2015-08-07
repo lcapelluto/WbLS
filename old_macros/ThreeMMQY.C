@@ -14,7 +14,7 @@ const char* xtitle = "wavelength [nm]";
 const char* ytitle = "Intensity [photons/sec]";
 
 /* Apply the selected emission correction, subtract offset, graph
- * spectrum and print the 3 measurement method Quantum Yield calculation.
+ * spectrum and print the 3 measurement method quantum yield calculation.
  */
 void ThreeMMQY(char* scan = "anthracene_ethanol/AE_340_OUT_default",
            double L_a = 0.0, double L_b = 0.0, double P_b = 0.0,

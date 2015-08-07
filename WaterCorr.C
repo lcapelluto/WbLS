@@ -65,13 +65,13 @@ void WaterCorr() {
         fclose(data);
         
         baseline /= (NUM_AVG * 2);
+        printf("wavelength %d baseline %f\n", wavelength, baseline);
         for (int j = 0; j < NUM_POINTS; j++) {
             y[j] -= baseline;
             sum += y[j];
         }
         /* Tried to normalize around 430nm. */
         //number only for floating and illustrating purposes, it "cancels" out
-        printf("x %d sum %f\n", peak, sum);
         corr[i] = 1/(sum * 0.00000075);
         x[i] = peak;
         
@@ -80,7 +80,7 @@ void WaterCorr() {
     
     FILE* result = fopen("correction/WaterCorr.txt", "w");
     for (int k = 0; k < NUM_FILES; k++) {
-        printf("%dnm: %f\n", x[k], corr[k]);
+        //printf("%dnm: %f\n", x[k], corr[k]);
         sprintf(line, "%d %f\n", x[k], corr[k]);
         fputs(line, result);
     }

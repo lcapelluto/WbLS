@@ -21,7 +21,7 @@
  * time was 10 seconds. Each run has uncorrected raw data and an excitation
  * correction given by FeliX, either the Default Correction or excorr.
  *
- * After some analysis, default emission correction is preferred.
+ * ***After some analysis, default emission correction is preferred.***
  */
 void EmissionCorrection() {
     double default_corr[NUM_CORR];

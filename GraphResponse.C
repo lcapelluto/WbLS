@@ -40,7 +40,6 @@ void GraphResponse(char* datafile = "", char* title = "Graph",
     char line[LINE_SIZE];
     char* p;
     int index = 0;
-
     if (correction) {
         while(fgets(line, sizeof(line), correction)) {
             strtok(line, "\n");
@@ -59,6 +58,8 @@ void GraphResponse(char* datafile = "", char* title = "Graph",
         
     }    
     
+    double max = 0.0;
+    int location = 0.0;
     index = 0;
     double baseline = 0.0;
     for (int h = 0; h < dataheader; h++) 
@@ -70,7 +71,10 @@ void GraphResponse(char* datafile = "", char* title = "Graph",
         double yval = atof(p);
         x[index] = xval;
         y[index] = yval;
-        printf("x %f, y %f\n",xval,yval);
+        if (yval > max) {
+            max = yval;
+            location = (int) xval;
+        }
         if (((index < NAP/2) || (index >= num_points - NAP/2)) && !is_low) {
             baseline += yval;
         } else if ((index < NAP) && (is_low)) {
@@ -78,6 +82,7 @@ void GraphResponse(char* datafile = "", char* title = "Graph",
         }
         index++;
     }
+    double sum = 0.0;
     
     fclose(data);
     if (correction) fclose(correction);
@@ -85,11 +90,18 @@ void GraphResponse(char* datafile = "", char* title = "Graph",
     printf("baseline %f\n", baseline);
     for (int j = 0; j < num_points; j++) {
         y[j] -= baseline;
-        if (correction) y[j] *= corr[(int) x[j] + 2];
+        if (correction) y[j] *= corr[(int) x[location - (int) x[0]]];
+        //if (correction) y[j] *= corr[(int) x[j]];
+        sum += y[j];
     }
     
     
-    
+    /*TGraphErrors* g = new TGraphErrors(2);
+    g->SetMarkerStyle(22);
+    g->SetMarkerColor(2);
+    g->SetPoint(0, location, sum);
+    g->SetPoint(1, 650, 0);
+    printf("sum %f\n",sum);*/
     TGraphErrors* g = new TGraphErrors(num_points, x, y);
     g->SetTitle(title);
     g->GetXaxis()->SetTitle(xtitle);

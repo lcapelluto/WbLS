@@ -47,7 +47,7 @@ double P_c_err = 0.0;
  * few nanometers. I wanted to see how important it was to fully understand the
  * observed systematic offsets within the instrument, and see if the QY would
  * change a lot if the correction wasn't applied to exactly the correct
- * wavelength. It matters.  
+ * wavelength. Conclusion: it matters.  
  *
  * Print the quantum yield (QY) values obtained by using the 2MM measurement
  * method and by using the 3MM method. 2MM will be obtained for each of 

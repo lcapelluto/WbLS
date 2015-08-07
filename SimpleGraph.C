@@ -8,8 +8,8 @@
  *  YTITLE.
  */
 void SimpleGraph(char file[] = "",
-                 int header_size = 4, int num_points = 350,
-                 char title[] = "Graph",
+                 int header_size = 4, int num_points = 30,
+                 char title[] = "Emissions",
                  char xtitle[] = "wavelength [nm]", 
                  char ytitle[] = "Intensity [photons/sec]") {
                  
@@ -30,7 +30,7 @@ void SimpleGraph(char file[] = "",
         if (index > num_points) break;
         double x = strtod(line, &p);
         double y = atof(p);
-        plot->SetPoint(index, x, y);
+        plot->SetPoint(index, x, (y-5000)*15);
         index++;
     }
     fclose(data);
